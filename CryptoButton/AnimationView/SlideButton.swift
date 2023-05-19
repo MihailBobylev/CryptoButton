@@ -39,7 +39,10 @@ class SlideButton: UIView {
     
     var title: String
     private var image: UIImage?
+    private var isAnimating = false
     private let id: Int
+    
+    
     private lazy var heightConstraint = slideButton.heightAnchor.constraint(equalToConstant: Constants.itemSize.rawValue)
     private lazy var widthConstraint = slideButton.widthAnchor.constraint(equalToConstant: Constants.itemSize.rawValue)
     
@@ -61,6 +64,7 @@ class SlideButton: UIView {
                                                name: .hideTitle,
                                                object: nil)
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressureAction(_:)))
+        longGesture.minimumPressDuration = 0.1
         addGestureRecognizer(longGesture)
         setupUI()
     }
@@ -82,17 +86,21 @@ class SlideButton: UIView {
         if let itemId = notification.userInfo?["itemID"] as? Int {
             titleLabel.alpha = 0
             if id == itemId {
-                if widthConstraint.constant != Constants.itemSize.rawValue * Constants.scale.rawValue {
+                if !isAnimating {
+                    isAnimating = true
                     UIImpactFeedbackGenerator(style: .heavy).impactOccurred(intensity: 1)
-                    UIView.animate(withDuration: 0.3) {
-                        self.widthConstraint.constant = Constants.itemSize.rawValue * Constants.scale.rawValue
-                        self.heightConstraint.constant = Constants.itemSize.rawValue * Constants.scale.rawValue
+                    UIView.animate(withDuration: 0.2) {
+                        let scaleTransform = CGAffineTransform(scaleX: Constants.scale.rawValue, y: Constants.scale.rawValue)
+                        let transitionTransform = CGAffineTransform(translationX: 0, y: -10)
+                        self.slideButton.transform = scaleTransform.concatenating(transitionTransform)
                     }
                 }
-            } else if widthConstraint.constant != Constants.itemSize.rawValue {
-                UIView.animate(withDuration: 0.3) {
-                    self.widthConstraint.constant = Constants.itemSize.rawValue
-                    self.heightConstraint.constant = Constants.itemSize.rawValue
+            } else if isAnimating {
+                isAnimating = false
+                UIView.animate(withDuration: 0.2) {
+                    let scaleTransform = CGAffineTransform(scaleX: 1, y: 1)
+                    let transitionTransform = CGAffineTransform(translationX: 0, y: 0)
+                    self.slideButton.transform = scaleTransform.concatenating(transitionTransform)
                 }
             }
         }
@@ -101,9 +109,11 @@ class SlideButton: UIView {
     @objc func longPressureAction(_ gestureRecognizer: UILongPressGestureRecognizer) {
         delegate?.longPressureItemAction(gestureRecognizer, itemTitle: title)
     }
+    
     @objc private func makeDefaultSize(_ notification: Notification) {
-        widthConstraint.constant = Constants.itemSize.rawValue
-        heightConstraint.constant = Constants.itemSize.rawValue
+        let scaleTransform = CGAffineTransform(scaleX: 1, y: 1)
+        let transitionTransform = CGAffineTransform(translationX: 0, y: 0)
+        slideButton.transform = scaleTransform.concatenating(transitionTransform)
         titleLabel.alpha = 1
     }
     

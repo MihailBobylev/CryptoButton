@@ -116,18 +116,12 @@ class ViewController: UIViewController {
         let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector (tapAction))
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressureAction(_:)))
         let longGesture2 = UILongPressGestureRecognizer(target: self, action: #selector(longPressureAction(_:)))
-        //let longGesture3 = UILongPressGestureRecognizer(target: self, action: #selector(longPressureAction(_:)))
         longGesture.minimumPressDuration = 0.3
+        longGesture2.minimumPressDuration = 0.1
         mainButton.addGestureRecognizer(tapGesture)
         mainButton.addGestureRecognizer(longGesture)
         translucentView.addGestureRecognizer(tapGesture2)
         translucentView.addGestureRecognizer(longGesture2)
-        
-//        slideButtonFirst.addGestureRecognizer(longGesture3)
-//        slideButtonSecond.addGestureRecognizer(longGesture3)
-        //slideButtonThird.addGestureRecognizer(longGesture3)
-//        slideButtonFourth.addGestureRecognizer(longGesture3)
-//        slideButtonFifth.addGestureRecognizer(longGesture3)
         
         setupUI()
     }
@@ -162,50 +156,12 @@ class ViewController: UIViewController {
             } else {
                 mainButton.alpha = 0
             }
+            checkIntersection(gestureRecognizer)
             grandTitleLabel.alpha = 1
             NotificationCenter.default.post(name: .hideTitle, object: self,
                                             userInfo: ["isHidden": true])
-            
         case .changed:
-            let location = gestureRecognizer.location(in: view)
-            let correctLocation = CGPoint(x: location.x - 50, y: location.y - 35)
-            let tapRect = CGRect(origin: correctLocation, size: CGSize(width: 70, height: 70))
-            
-            var itemID = 0
-            var intersection = CGRectIntersection(slideButtonFirst.frame, tapRect)
-            if !CGRectIsNull(intersection) {
-                itemID = 1
-                grandTitleLabel.text = slideButtonFirst.title
-            }
-            
-            intersection = CGRectIntersection(slideButtonSecond.frame, tapRect)
-            if !CGRectIsNull(intersection) {
-                itemID = 2
-                grandTitleLabel.text = slideButtonSecond.title
-            }
-            
-            intersection = CGRectIntersection(slideButtonThird.frame, tapRect)
-            if !CGRectIsNull(intersection) {
-                itemID = 3
-                grandTitleLabel.text = slideButtonThird.title
-            }
-            
-            intersection = CGRectIntersection(slideButtonFourth.frame, tapRect)
-            if !CGRectIsNull(intersection) {
-                itemID = 4
-                grandTitleLabel.text = slideButtonFourth.title
-            }
-            
-            intersection = CGRectIntersection(slideButtonFifth.frame, tapRect)
-            if !CGRectIsNull(intersection) {
-                itemID = 5
-                grandTitleLabel.text = slideButtonFifth.title
-            }
-            if itemID == 0 {
-                grandTitleLabel.text = ""
-            }
-            NotificationCenter.default.post(name: .intersection, object: self,
-                                            userInfo: ["itemID": itemID])
+            checkIntersection(gestureRecognizer)
         case .ended:
             NotificationCenter.default.post(name: .makeDefaultSize, object: self)
             NotificationCenter.default.post(name: .hideTitle, object: self,
@@ -219,6 +175,48 @@ class ViewController: UIViewController {
         default:
             break
         }
+    }
+    
+    private func checkIntersection(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        let location = gestureRecognizer.location(in: view)
+        let correctLocation = CGPoint(x: location.x - 40, y: location.y - 35)
+        let tapRect = CGRect(origin: correctLocation, size: CGSize(width: 40, height: 60))
+        
+        var itemID = 0
+        var intersection = CGRectIntersection(slideButtonFirst.frame, tapRect)
+        if !CGRectIsNull(intersection) {
+            itemID = 1
+            grandTitleLabel.text = slideButtonFirst.title
+        }
+        
+        intersection = CGRectIntersection(slideButtonSecond.frame, tapRect)
+        if !CGRectIsNull(intersection) {
+            itemID = 2
+            grandTitleLabel.text = slideButtonSecond.title
+        }
+        
+        intersection = CGRectIntersection(slideButtonThird.frame, tapRect)
+        if !CGRectIsNull(intersection) {
+            itemID = 3
+            grandTitleLabel.text = slideButtonThird.title
+        }
+        
+        intersection = CGRectIntersection(slideButtonFourth.frame, tapRect)
+        if !CGRectIsNull(intersection) {
+            itemID = 4
+            grandTitleLabel.text = slideButtonFourth.title
+        }
+        
+        intersection = CGRectIntersection(slideButtonFifth.frame, tapRect)
+        if !CGRectIsNull(intersection) {
+            itemID = 5
+            grandTitleLabel.text = slideButtonFifth.title
+        }
+        if itemID == 0 {
+            grandTitleLabel.text = ""
+        }
+        NotificationCenter.default.post(name: .intersection, object: self,
+                                        userInfo: ["itemID": itemID])
     }
     
     private func animateOut() {
