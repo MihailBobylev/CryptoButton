@@ -1,10 +1,3 @@
-//
-//  ViewController.swift
-//  CryptoButton
-//
-//  Created by Михаил Бобылев on 17.05.2023.
-//
-
 import UIKit
 
 class ViewController: UIViewController {
@@ -56,7 +49,7 @@ class ViewController: UIViewController {
     
     private func setupUI() {
         view.addSubview(mainLabel)
-        //view.addSubview(translucentView)
+        view.addSubview(translucentView)
         view.addSubview(mainButtonView)
         
         NSLayoutConstraint.activate([
@@ -64,15 +57,15 @@ class ViewController: UIViewController {
             mainLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             mainLabel.widthAnchor.constraint(equalToConstant: 100),
             
-//            translucentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            translucentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            translucentView.topAnchor.constraint(equalTo: view.topAnchor),
-//            translucentView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            translucentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            translucentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            translucentView.topAnchor.constraint(equalTo: view.topAnchor),
+            translucentView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             mainButtonView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             mainButtonView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40),
-//            mainButtonView.widthAnchor.constraint(equalToConstant: 80),
-//            mainButtonView.heightAnchor.constraint(equalToConstant: 80)
+            mainButtonView.widthAnchor.constraint(equalToConstant: view.bounds.width),
+            mainButtonView.heightAnchor.constraint(equalToConstant: 200)
         ])
     }
 }

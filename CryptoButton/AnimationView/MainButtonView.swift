@@ -1,6 +1,5 @@
 import UIKit
 
-
 protocol MainButtonViewDelegate: AnyObject {
     func hideBlur(_ hide: Bool)
     func getView() -> UIView
@@ -10,12 +9,16 @@ final class MainButtonView: UIView {
     enum Constants: CGFloat {
         case offsetX1 = 150
         case offsetY1 = 45
-        
-        case offsetY3 = 100
-
         case offsetX2 = 78
         case offsetY2 = 85
+        case offsetY3 = 100
     }
+    
+    private lazy var blanckView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     private lazy var grandTitleLabel: UILabel = {
         let label = UILabel()
@@ -31,12 +34,13 @@ final class MainButtonView: UIView {
         button.setImage(UIImage(systemName: "gamecontroller.fill")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.imageView?.tintColor = .white
         button.backgroundColor = .red
+        button.addTarget(self, action: #selector(tapAction), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     private lazy var slideButtonFirst: SlideButton = {
-        let button = SlideButton(title: "button1", image: UIImage(systemName: "person.circle"), id: 1)
+        let button = SlideButton(title: "Stake", image: UIImage(systemName: "person.circle"), id: 1)
         button.delegate = self
         button.alpha = 0
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -44,7 +48,7 @@ final class MainButtonView: UIView {
     }()
     
     private lazy var slideButtonSecond: SlideButton = {
-        let button = SlideButton(title: "button2", image: UIImage(systemName: "house"), id: 2)
+        let button = SlideButton(title: "Send", image: UIImage(systemName: "house"), id: 2)
         button.delegate = self
         button.alpha = 0
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -52,7 +56,7 @@ final class MainButtonView: UIView {
     }()
     
     private lazy var slideButtonThird: SlideButton = {
-        let button = SlideButton(title: "button3", image: UIImage(systemName: "timer"), id: 3)
+        let button = SlideButton(title: "Receive", image: UIImage(systemName: "timer"), id: 3)
         button.delegate = self
         button.alpha = 0
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -60,7 +64,7 @@ final class MainButtonView: UIView {
     }()
     
     private lazy var slideButtonFourth: SlideButton = {
-        let button = SlideButton(title: "button4", image: UIImage(systemName: "globe.central.south.asia.fill"), id: 4)
+        let button = SlideButton(title: "Supply", image: UIImage(systemName: "globe.central.south.asia.fill"), id: 4)
         button.delegate = self
         button.alpha = 0
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -68,7 +72,7 @@ final class MainButtonView: UIView {
     }()
     
     private lazy var slideButtonFifth: SlideButton = {
-        let button = SlideButton(title: "button5", image: UIImage(systemName: "heart.fill"), id: 5)
+        let button = SlideButton(title: "Borrow", image: UIImage(systemName: "heart.fill"), id: 5)
         button.delegate = self
         button.alpha = 0
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -92,13 +96,7 @@ final class MainButtonView: UIView {
     
     init() {
         super.init(frame: .zero)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector (tapAction))
-        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressureAction(_:)))
-        longGesture.minimumPressDuration = 0.3
-        mainButton.addGestureRecognizer(tapGesture)
-        mainButton.addGestureRecognizer(longGesture)
-        
+        setupGestures()
         setupUI()
     }
     
@@ -115,12 +113,35 @@ final class MainButtonView: UIView {
         mainButton.layer.shadowOpacity = 1
     }
     
+    private func setupGestures() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector (backgoundTapAction))
+        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressureAction(_:)))
+        let longGesture2 = UILongPressGestureRecognizer(target: self, action: #selector(backgroundLongPressureAction(_:)))
+        longGesture.minimumPressDuration = 0.3
+        longGesture2.minimumPressDuration = 0.1
+        mainButton.addGestureRecognizer(longGesture)
+        blanckView.addGestureRecognizer(tapGesture)
+        blanckView.addGestureRecognizer(longGesture2)
+    }
+    
     @objc func tapAction() {
         if isOpened {
             UIImpactFeedbackGenerator(style: .heavy).impactOccurred(intensity: 1)
             animateOut()
         } else {
             animateIn()
+        }
+    }
+    
+    @objc func backgoundTapAction() {
+        if !isOpened {
+            animateIn()
+        }
+    }
+
+    @objc func backgroundLongPressureAction(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        if !isOpened {
+            longPressureAction(gestureRecognizer)
         }
     }
     
@@ -158,43 +179,47 @@ final class MainButtonView: UIView {
     }
     
     private func checkIntersection(_ gestureRecognizer: UILongPressGestureRecognizer) {
-        let location = gestureRecognizer.location(in: delegate?.getView()) // TODO: можеть не работать self. Сделать delegate?.getView()
-        let correctLocation = CGPoint(x: location.x - 40, y: location.y - 35)
-        let tapRect = CGRect(origin: correctLocation, size: CGSize(width: 40, height: 60))
+        let location = gestureRecognizer.location(in: self)
+        let correctLocation = CGPoint(x: location.x - 30, y: location.y - 20)
+        let tapRect = CGRect(origin: correctLocation, size: CGSize(width: 20, height: 20))
         
         var itemID = 0
+        var grandText = ""
         var intersection = CGRectIntersection(slideButtonFirst.frame, tapRect)
         if !CGRectIsNull(intersection) {
             itemID = 1
-            grandTitleLabel.text = slideButtonFirst.title
+            grandText = slideButtonFirst.title
         }
         
         intersection = CGRectIntersection(slideButtonSecond.frame, tapRect)
         if !CGRectIsNull(intersection) {
             itemID = 2
-            grandTitleLabel.text = slideButtonSecond.title
+            grandText = slideButtonSecond.title
         }
         
         intersection = CGRectIntersection(slideButtonThird.frame, tapRect)
         if !CGRectIsNull(intersection) {
             itemID = 3
-            grandTitleLabel.text = slideButtonThird.title
+            grandText = slideButtonThird.title
         }
         
         intersection = CGRectIntersection(slideButtonFourth.frame, tapRect)
         if !CGRectIsNull(intersection) {
             itemID = 4
-            grandTitleLabel.text = slideButtonFourth.title
+            grandText = slideButtonFourth.title
         }
         
         intersection = CGRectIntersection(slideButtonFifth.frame, tapRect)
         if !CGRectIsNull(intersection) {
             itemID = 5
-            grandTitleLabel.text = slideButtonFifth.title
+            grandText = slideButtonFifth.title
         }
+        
         if itemID == 0 {
-            grandTitleLabel.text = ""
+            grandText = ""
         }
+        
+        grandTitleLabel.text = grandText
         NotificationCenter.default.post(name: .intersection, object: self,
                                         userInfo: ["itemID": itemID])
     }
@@ -258,6 +283,7 @@ final class MainButtonView: UIView {
     }
     
     private func setupUI() {
+        addSubview(blanckView)
         addSubview(grandTitleLabel)
         addSubview(slideButtonFirst)
         addSubview(slideButtonSecond)
@@ -266,20 +292,20 @@ final class MainButtonView: UIView {
         addSubview(slideButtonFifth)
         addSubview(mainButton)
         
-        
         NSLayoutConstraint.activate([
-            mainButton.topAnchor.constraint(equalTo: topAnchor),
+            blanckView.topAnchor.constraint(equalTo: topAnchor),
+            blanckView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            blanckView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            blanckView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            
             mainButton.bottomAnchor.constraint(equalTo: bottomAnchor),
-            mainButton.leadingAnchor.constraint(equalTo: leadingAnchor),
-            mainButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+            mainButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             mainButton.widthAnchor.constraint(equalToConstant: 80),
             mainButton.heightAnchor.constraint(equalToConstant: 80),
             
             centerYconst1,
             centerYconst2,
             centerYconst3,
-//            slideButtonThird.widthAnchor.constraint(equalToConstant: 80),
-//            slideButtonThird.heightAnchor.constraint(equalToConstant: 80),
             centerYconst4,
             centerYconst5,
             
