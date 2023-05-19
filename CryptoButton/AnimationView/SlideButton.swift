@@ -12,7 +12,7 @@ protocol SlideButtonViewDelegate: AnyObject {
     func longPressureItemAction(_ gestureRecognizer: UILongPressGestureRecognizer, itemTitle: String)
 }
 
-class SlideButton: UIView {
+final class SlideButton: UIView {
     enum Constants: CGFloat {
         case itemSize = 50
         case scale = 1.4
