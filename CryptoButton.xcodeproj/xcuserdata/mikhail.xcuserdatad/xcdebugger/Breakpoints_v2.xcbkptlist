@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "5D3F86FB-FD55-40BD-B9AC-39E3C1B488CF"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1CFFD435-2E18-423B-8B2F-E73B1D384346"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CryptoButton/SlideButton.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "changeCarouselCellStatus(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "1CFFD435-2E18-423B-8B2F-E73B1D384346 - e2f872f39ea0445"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CryptoButton.SlideButton.changeCarouselCellStatus(Foundation.Notification) -&gt; ()"
+                  moduleName = "CryptoButton"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mikhail/CryptoButton/CryptoButton/SlideButton.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "164">
+               </Location>
+               <Location
+                  uuid = "1CFFD435-2E18-423B-8B2F-E73B1D384346 - e2f872f39ea0445"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CryptoButton.SlideButton.changeCarouselCellStatus(Foundation.Notification) -&gt; ()"
+                  moduleName = "CryptoButton"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mikhail/CryptoButton/CryptoButton/SlideButton.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "620">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
