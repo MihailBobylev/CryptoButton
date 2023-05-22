@@ -3,6 +3,7 @@ import UIKit
 protocol MainButtonViewDelegate: AnyObject {
     func hideBlur(_ hide: Bool)
     func getView() -> UIView
+    func uploadMainButtonViewConstraints(isOpened: Bool)
 }
 
 final class MainButtonView: UIView {
@@ -250,6 +251,9 @@ final class MainButtonView: UIView {
             self.slideButtonFifth.alpha = 1
             
             self.layoutIfNeeded()
+        } completion: { [weak self] _ in
+            guard let self = self else { return }
+            self.delegate?.uploadMainButtonViewConstraints(isOpened: self.isOpened)
         }
     }
     
@@ -279,6 +283,9 @@ final class MainButtonView: UIView {
             self.slideButtonFifth.alpha = 0
             
             self.layoutIfNeeded()
+        } completion: { [weak self] _ in
+            guard let self = self else { return }
+            self.delegate?.uploadMainButtonViewConstraints(isOpened: self.isOpened)
         }
     }
     

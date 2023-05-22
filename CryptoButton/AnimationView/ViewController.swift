@@ -26,6 +26,9 @@ class ViewController: UIViewController {
         return view
     }()
     
+    private lazy var heightMainButtonViewConstraint = mainButtonView.heightAnchor.constraint(equalToConstant: 80)
+    private lazy var widthMainButtonViewConstraint = mainButtonView.widthAnchor.constraint(equalToConstant: 80)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -64,13 +67,18 @@ class ViewController: UIViewController {
             
             mainButtonView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             mainButtonView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40),
-            mainButtonView.widthAnchor.constraint(equalToConstant: view.bounds.width),
-            mainButtonView.heightAnchor.constraint(equalToConstant: 200)
+            heightMainButtonViewConstraint,
+            widthMainButtonViewConstraint
         ])
     }
 }
 
 extension ViewController: MainButtonViewDelegate {
+    func uploadMainButtonViewConstraints(isOpened: Bool) {
+        heightMainButtonViewConstraint.constant = !isOpened ? 200 : 80
+        widthMainButtonViewConstraint.constant = !isOpened ? view.bounds.width : 80
+    }
+    
     func hideBlur(_ hide: Bool) {
         translucentView.alpha = hide ? 0 : 1
     }
