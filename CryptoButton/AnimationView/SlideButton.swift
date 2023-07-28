@@ -1,10 +1,3 @@
-//
-//  SlideButton.swift
-//  CryptoButton
-//
-//  Created by Михаил Бобылев on 18.05.2023.
-//
-
 import UIKit
 
 protocol SlideButtonViewDelegate: AnyObject {
@@ -12,7 +5,7 @@ protocol SlideButtonViewDelegate: AnyObject {
     func longPressureItemAction(_ gestureRecognizer: UILongPressGestureRecognizer, itemTitle: String)
 }
 
-class SlideButton: UIView {
+final class SlideButton: UIView {
     enum Constants: CGFloat {
         case itemSize = 50
         case scale = 1.4
@@ -51,6 +44,24 @@ class SlideButton: UIView {
         self.image = image
         self.id = id
         super.init(frame: .zero)
+        setupGestures()
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        slideButton.layer.cornerRadius = slideButton.bounds.width / 2
+        
+        slideButton.layer.shadowOffset = CGSize(width: 0, height: 2)
+        slideButton.layer.shadowRadius = 10
+        slideButton.layer.shadowOpacity = 1
+    }
+    
+    private func setupGestures() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(checkIntersection(_:)),
                                                name: .intersection,
@@ -66,20 +77,6 @@ class SlideButton: UIView {
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressureAction(_:)))
         longGesture.minimumPressDuration = 0.1
         addGestureRecognizer(longGesture)
-        setupUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        slideButton.layer.cornerRadius = slideButton.bounds.width / 2
-        
-        slideButton.layer.shadowOffset = CGSize(width: 0, height: 2)
-        slideButton.layer.shadowRadius = 10
-        slideButton.layer.shadowOpacity = 1
     }
     
     @objc private func checkIntersection(_ notification: Notification) {

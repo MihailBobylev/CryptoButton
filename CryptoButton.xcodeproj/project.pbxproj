@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		749520732A16169D009D13A7 /* SlideButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749520722A16169D009D13A7 /* SlideButton.swift */; };
 		749520752A165649009D13A7 /* NSNotification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749520742A165649009D13A7 /* NSNotification+Extension.swift */; };
+		749BDF372A17810F008F073D /* MainButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749BDF362A17810F008F073D /* MainButtonView.swift */; };
 		74CAEF3C2A1520E2004C5D83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CAEF3B2A1520E2004C5D83 /* AppDelegate.swift */; };
 		74CAEF3E2A1520E2004C5D83 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CAEF3D2A1520E2004C5D83 /* SceneDelegate.swift */; };
 		74CAEF402A1520E2004C5D83 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CAEF3F2A1520E2004C5D83 /* ViewController.swift */; };
@@ -36,6 +37,7 @@
 /* Begin PBXFileReference section */
 		749520722A16169D009D13A7 /* SlideButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideButton.swift; sourceTree = "<group>"; };
 		749520742A165649009D13A7 /* NSNotification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSNotification+Extension.swift"; sourceTree = "<group>"; };
+		749BDF362A17810F008F073D /* MainButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainButtonView.swift; sourceTree = "<group>"; };
 		74CAEF382A1520E2004C5D83 /* CryptoButton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptoButton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74CAEF3B2A1520E2004C5D83 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		74CAEF3D2A1520E2004C5D83 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				74CAEF3F2A1520E2004C5D83 /* ViewController.swift */,
 				749520722A16169D009D13A7 /* SlideButton.swift */,
 				749520742A165649009D13A7 /* NSNotification+Extension.swift */,
+				749BDF362A17810F008F073D /* MainButtonView.swift */,
 			);
 			path = AnimationView;
 			sourceTree = "<group>";
@@ -246,6 +249,7 @@
 				74CAEF402A1520E2004C5D83 /* ViewController.swift in Sources */,
 				749520752A165649009D13A7 /* NSNotification+Extension.swift in Sources */,
 				749520732A16169D009D13A7 /* SlideButton.swift in Sources */,
+				749BDF372A17810F008F073D /* MainButtonView.swift in Sources */,
 				74CAEF3C2A1520E2004C5D83 /* AppDelegate.swift in Sources */,
 				74CAEF3E2A1520E2004C5D83 /* SceneDelegate.swift in Sources */,
 			);
